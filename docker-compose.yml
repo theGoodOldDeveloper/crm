@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crm_app
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - DATABASE_URL=postgresql://crm_user:${POSTGRES_PASSWORD:-crm_secure_pass}@db:5432/crm_db
+      - JWT_SECRET=${JWT_SECRET:-change-this-to-a-secure-random-string-min-32-chars}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI:-http://localhost:3002/api/auth/callback}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3002}
+      - NODE_ENV=production
+      - DEV_LOGIN_ENABLED=${DEV_LOGIN_ENABLED:-false}
+      - NEXT_PUBLIC_DEV_LOGIN=${DEV_LOGIN_ENABLED:-false}
+    volumes:
+      - ./data/uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - crm_internal
+
+  db:
+    image: postgres:16-alpine
+    container_name: crm_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=crm_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-crm_secure_pass}
+      - POSTGRES_DB=crm_db
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - crm_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm_user -d crm_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  crm_internal:
+    driver: bridge

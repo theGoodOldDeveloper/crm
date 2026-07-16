@@ -1,0 +1,10 @@
+# VPS-en NPM (Nginx Proxy Manager) mögött:
+# docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+services:
+  app:
+    ports:
+      - "8084:3002"
+    environment:
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI:-https://mcrm.thegoodolddeveloper.cloud/api/auth/callback}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://mcrm.thegoodolddeveloper.cloud}

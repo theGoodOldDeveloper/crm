@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  name               String?
+  picture            String?
+  googleRefreshToken String?
+  googleAccessToken  String?
+  tokenExpiry        DateTime?
+  createdAt          DateTime  @default(now())
+}
+
+model Contact {
+  id          String             @id @default(cuid())
+  name        String
+  company     String?
+  email       String?
+  phone       String?
+  address     String?
+  notes       String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  touchpoints Touchpoint[]
+  projects    ContactOnProject[]
+}
+
+model Project {
+  id          String             @id @default(cuid())
+  name        String
+  status      ProjectStatus      @default(ACTIVE)
+  description String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  contacts    ContactOnProject[]
+  touchpoints Touchpoint[]
+}
+
+model ContactOnProject {
+  contactId String
+  projectId String
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([contactId, projectId])
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+}
+
+model Touchpoint {
+  id        String         @id @default(cuid())
+  contactId String
+  projectId String?
+  type      TouchpointType
+  date      DateTime
+  duration  Int?
+  notes     String?
+  createdAt DateTime       @default(now())
+  contact   Contact        @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  project   Project?       @relation(fields: [projectId], references: [id])
+  event     CalendarEvent?
+}
+
+enum TouchpointType {
+  PHONE
+  SMS
+  EMAIL
+  MEETING
+}
+
+model CalendarEvent {
+  id            String     @id @default(cuid())
+  googleEventId String?    @unique
+  title         String
+  description   String?
+  startTime     DateTime
+  endTime       DateTime
+  touchpointId  String?    @unique
+  touchpoint    Touchpoint? @relation(fields: [touchpointId], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
