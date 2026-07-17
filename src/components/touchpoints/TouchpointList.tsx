@@ -111,7 +111,7 @@ export function TouchpointList({ contactId, projectId, onMutate }: TouchpointLis
               </div>
 
               {/* Actions */}
-              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+              <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex-shrink-0">
                 <button
                   onClick={() => setEditItem(tp)}
                   className="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"

@@ -1,0 +1,6 @@
+# Lokális fejlesztéshez: csak a db-t indítja és kinyitja az 5432-es portot
+# Használat: docker compose -f docker-compose.yml -f docker-compose.dev.yml up db -d
+services:
+  db:
+    ports:
+      - "5432:5432"

@@ -6,7 +6,7 @@ export default function CalendarPage() {
   return (
     <AppLayout>
       <Header title="Naptár" />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <CalendarView />
       </div>
     </AppLayout>

@@ -36,7 +36,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -46,12 +46,13 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
       {/* Modal */}
       <div
         className={cn(
-          'relative w-full card shadow-xl',
+          'relative w-full card shadow-xl flex flex-col max-h-[92vh] sm:max-h-[90vh]',
+          'rounded-b-none sm:rounded-b-xl',
           sizes[size]
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-slate-700">
+        <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-slate-700 flex-shrink-0">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
@@ -62,7 +63,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
         </div>
 
         {/* Content */}
-        <div className="p-5">{children}</div>
+        <div className="p-5 overflow-y-auto">{children}</div>
       </div>
     </div>
   )

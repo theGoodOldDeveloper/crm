@@ -42,7 +42,7 @@ export default function TouchpointsPage() {
   return (
     <AppLayout>
       <Header title="Kapcsolatfelvételi napló" />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <TouchpointsContent />
       </div>
     </AppLayout>

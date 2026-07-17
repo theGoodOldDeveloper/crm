@@ -6,7 +6,7 @@ export default function ProjectsPage() {
   return (
     <AppLayout>
       <Header title="Projektek" />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <ProjectList />
       </div>
     </AppLayout>

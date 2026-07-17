@@ -39,22 +39,25 @@ export function ProjectDetail({ id }: { id: string }) {
   return (
     <div className="space-y-6">
       {/* Back + Actions */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <Link
           href="/projects"
-          className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+          className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex-shrink-0"
         >
           <ArrowLeft size={16} /> Vissza
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Button variant="secondary" size="sm" onClick={() => setTouchpointOpen(true)}>
-            <Plus size={14} /> Kapcsolatfelvétel
+            <Plus size={14} />
+            <span className="hidden sm:inline">Kapcsolatfelvétel</span>
           </Button>
           <Button variant="secondary" size="sm" onClick={() => setEditOpen(true)}>
-            <Edit size={14} /> Szerkesztés
+            <Edit size={14} />
+            <span className="hidden sm:inline">Szerkesztés</span>
           </Button>
           <Button variant="danger" size="sm" onClick={() => setDeleteConfirm(true)}>
-            <Trash2 size={14} /> Törlés
+            <Trash2 size={14} />
+            <span className="hidden sm:inline">Törlés</span>
           </Button>
         </div>
       </div>

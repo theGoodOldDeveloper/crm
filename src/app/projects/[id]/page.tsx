@@ -6,7 +6,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   return (
     <AppLayout>
       <Header title="Projekt részletek" />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <ProjectDetail id={params.id} />
       </div>
     </AppLayout>
